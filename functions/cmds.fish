@@ -10,8 +10,9 @@ function cmds --description "Interactive command dashboard powered by fzf"
     set -g _C_DIM    (printf '\033[2m')
     set -g _C_RESET  (printf '\033[0m')
     set -g _CMDS_THEME "fg:#cdd6f4,bg:#1e1e2e,hl:#89b4fa,fg+:#cdd6f4,bg+:#313244,hl+:#89dceb,info:#cba6f7,prompt:#89b4fa,pointer:#f5c2e7,marker:#a6e3a1,border:#585b70,header:#6c7086,preview-fg:#cdd6f4,preview-bg:#181825,label:#cba6f7,query:#cdd6f4"
-    set -g _CMDS_HEADER_MAIN (printf '  \033[38;5;117menter\033[0m run  \033[38;5;141ma\033[0m add  \033[38;5;183me\033[0m edit  \033[38;5;203md\033[0m delete  \033[38;5;244m?\033[0m preview')
-    set -g _CMDS_HEADER_DEL  (printf '  \033[38;5;244mTab\033[0m select multiple')
+    set -g _CMDS_HEADER_MAIN   (printf '  \033[38;5;117menter\033[0m run  \033[38;5;141ma\033[0m add  \033[38;5;183me\033[0m edit  \033[38;5;203md\033[0m delete  \033[38;5;114ms\033[0m search  \033[38;5;244m?\033[0m preview')
+    set -g _CMDS_HEADER_SEARCH (printf '  \033[38;5;114m  search mode\033[0m  type to filter  \033[38;5;244mEsc\033[0m back to commands')
+    set -g _CMDS_HEADER_DEL    (printf '  \033[38;5;244mTab\033[0m select multiple')
 
     set data_file ~/.config/fish/cmds_data.tsv
 
@@ -62,13 +63,16 @@ function cmds --description "Interactive command dashboard powered by fzf"
         --marker="◉" \
         --info=inline \
         --height=60% \
-        --header=$_CMDS_HEADER_MAIN \
+        --header="$_CMDS_HEADER_MAIN" \
         --preview='printf "\033[38;5;183m  ❯ Command\033[0m\n\n    \033[38;5;117m%s\033[0m\n" "$(echo {} | cut -f2)"' \
         --preview-window="down:4:border-top:hidden" \
+        --disabled \
         --bind="?:toggle-preview" \
         --bind="a:execute(fish -c 'cmds __add')+reload(fish -c 'cmds __list')" \
         --bind="e:execute(echo {} > /tmp/.cmds_sel; fish -c 'cmds __edit')+reload(fish -c 'cmds __list')" \
         --bind="d:execute(printf '%s\n' {+} > /tmp/.cmds_sel; fish -c 'cmds __del')+reload(fish -c 'cmds __list')" \
+        --bind="s:enable-search+unbind(a,e,d,s,?)+change-prompt(  search ❯ )+change-header($_CMDS_HEADER_SEARCH)" \
+        --bind="esc:disable-search+clear-query+rebind(a,e,d,s,?)+change-prompt(  ❯ )+change-header($_CMDS_HEADER_MAIN)+unbind(esc)" \
         --multi)
 
     if test -n "$sel"
