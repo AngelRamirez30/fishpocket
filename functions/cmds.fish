@@ -72,7 +72,7 @@ function cmds --description "Interactive command dashboard powered by fzf"
         --bind="e:execute(echo {} > /tmp/.cmds_sel; fish -c 'cmds __edit')+reload(fish -c 'cmds __list')" \
         --bind="d:execute(printf '%s\n' {+} > /tmp/.cmds_sel; fish -c 'cmds __del')+reload(fish -c 'cmds __list')" \
         --bind="s:enable-search+unbind(a,e,d,s,?)+change-prompt(  search ❯ )+change-header($_CMDS_HEADER_SEARCH)" \
-        --bind="esc:disable-search+clear-query+rebind(a,e,d,s,?)+change-prompt(  ❯ )+change-header($_CMDS_HEADER_MAIN)+unbind(esc)" \
+        --bind="esc:disable-search+rebind(a,e,d,s,?)+change-prompt(  ❯ )+change-header($_CMDS_HEADER_MAIN)+unbind(esc)" \
         --multi)
 
     if test -n "$sel"
