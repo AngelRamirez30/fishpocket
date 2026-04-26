@@ -45,18 +45,18 @@ ok "Function installed"
 if [ ! -f "$FISH_DATA" ]; then
     info "Creating default data file → $FISH_DATA"
     printf "%s\t%s\n" \
-        "Git: Configurar user y email"  'git config user.name "Nombre" && git config user.email "email@ejemplo.com"' \
-        "Git: Ver estado"               "git status" \
-        "Git: Ver ramas remotas"        "git branch -r" \
-        "Git: Limpiar ramas mergeadas"  "git branch --merged | grep -v main | xargs git branch -d" \
-        "Sistema: Listar puertos"       "lsof -i -P -n | grep LISTEN" \
-        "Sistema: Ver uso de disco"     "df -h" > "$FISH_DATA"
+        "Git: Set user and email"      'git config user.name "Name" && git config user.email "email@example.com"' \
+        "Git: Status"                  "git status" \
+        "Git: List remote branches"    "git branch -r" \
+        "Git: Clean merged branches"   "git branch --merged | grep -v main | xargs git branch -d" \
+        "System: List open ports"      "lsof -i -P -n | grep LISTEN" \
+        "System: Disk usage"           "df -h" > "$FISH_DATA"
     ok "Default commands created"
 else
     info "Data file already exists, skipping"
 fi
 
 printf "\n${PURPLE}  ╭──────────────────────────────────────╮${RESET}\n"
-printf "${PURPLE}  │${RESET}  ${GREEN}${BOLD}Installation complete!${RESET}               ${PURPLE}│${RESET}\n"
-printf "${PURPLE}  │${RESET}  Run ${BLUE}cmds${RESET} in a new fish session       ${PURPLE}│${RESET}\n"
+printf "${PURPLE}  │${RESET}  ${GREEN}${BOLD}Done!${RESET} Open a new fish session      ${PURPLE}│${RESET}\n"
+printf "${PURPLE}  │${RESET}  and run ${BLUE}cmds${RESET} to get started           ${PURPLE}│${RESET}\n"
 printf "${PURPLE}  ╰──────────────────────────────────────╯${RESET}\n\n"
